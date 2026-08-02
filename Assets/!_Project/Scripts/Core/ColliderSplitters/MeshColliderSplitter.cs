@@ -25,10 +25,10 @@ public class MeshColliderSplitter : BaseColliderSplitter
             Vector3 v1 = vertices[triangles[i + 1]];
             Vector3 v2 = vertices[triangles[i + 2]];
 
-            var list = new LinkedList<Vector3>();
-            list.AddLast(v0);
-            list.AddLast(v1);
+            var list = new LinkedList<PointData>();
             list.AddLast(v2);
+            list.AddLast(v1);
+            list.AddLast(v0);
 
             Polyhedron triangle = new Polyhedron(list);
             faces.Add(triangle);

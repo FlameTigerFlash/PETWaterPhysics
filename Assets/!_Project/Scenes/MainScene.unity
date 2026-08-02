@@ -130,7 +130,6 @@ GameObject:
   - component: {fileID: 243231757}
   - component: {fileID: 243231756}
   - component: {fileID: 243231755}
-  - component: {fileID: 243231754}
   m_Layer: 0
   m_Name: Water
   m_TagString: Untagged
@@ -138,28 +137,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!64 &243231754
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 243231753}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &243231755
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -232,6 +209,83 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &264440474
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2869169446171960112, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
+      propertyPath: m_Name
+      value: SmallTopLargeBottomModel
+      objectReference: {fileID: 0}
+    - target: {fileID: 3214029462564485514, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3214029462564485514, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 8.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3214029462564485514, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3214029462564485514, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3214029462564485514, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3214029462564485514, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.000000030908623
+      objectReference: {fileID: 0}
+    - target: {fileID: 3214029462564485514, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.000000030908623
+      objectReference: {fileID: 0}
+    - target: {fileID: 3214029462564485514, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3214029462564485514, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3214029462564485514, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5592130941901434881, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
+      propertyPath: m_Mass
+      value: 5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5592130941901434881, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889963881776135310, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
+      propertyPath: _applyArchimedesForce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889963881776135310, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
+      propertyPath: _maxRotationGainPerSecond
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889963881776135310, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
+      propertyPath: _maxArchimedesAccelerationGrowthPerSecond
+      value: 100
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -510,6 +564,7 @@ GameObject:
   - component: {fileID: 571377213}
   - component: {fileID: 571377208}
   - component: {fileID: 571377212}
+  - component: {fileID: 571377214}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -563,7 +618,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: f17d4cbb1206c6f428a70dfc566ec1ae, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -604,8 +659,8 @@ Transform:
   m_GameObject: {fileID: 571377207}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.6, z: 0}
-  m_LocalScale: {x: 1.5, y: 2, z: 3}
+  m_LocalPosition: {x: 0, y: 20, z: 0}
+  m_LocalScale: {x: 2, y: 8, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -623,7 +678,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaterPressureProcessor
   _collider: {fileID: 571377208}
-  _waterDensity: 10
+  _waterDensity: 1000
 --- !u!54 &571377213
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -632,9 +687,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 571377207}
   serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0
+  m_Mass: 24000
+  m_LinearDamping: 0.05
+  m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -651,6 +706,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
+--- !u!114 &571377214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 571377207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ff73e8ad4a6f3e49be9ea4d37029d22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaterForceAggregator
+  _pressureProcessor: {fileID: 571377212}
+  _standardCurrent: {x: 0, y: 0, z: 0}
+  _maxRotationGainPerSecond: 1000
+  _maxArchimedesAccelerationGrowthPerSecond: 3
+  _applyArchimedesForce: 1
+  _applyResistanceForce: 1
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -709,3 +782,4 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 571377211}
   - {fileID: 243231757}
+  - {fileID: 264440474}

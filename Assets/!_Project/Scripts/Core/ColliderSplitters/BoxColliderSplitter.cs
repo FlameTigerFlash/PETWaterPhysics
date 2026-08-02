@@ -5,12 +5,9 @@ public class BoxColliderSplitter : BaseColliderSplitter
 {
     private BoxCollider _boxCollider;
 
-    private Transform _transform;
-
-    public BoxColliderSplitter(BoxCollider boxCollider, Transform transform)
+    public BoxColliderSplitter(BoxCollider boxCollider)
     {
         _boxCollider = boxCollider;
-        _transform = transform;
     }
 
     protected override List<Polyhedron> SplitCollider()
@@ -18,19 +15,19 @@ public class BoxColliderSplitter : BaseColliderSplitter
         List<Polyhedron> faces = new();
 
         Bounds bounds = _boxCollider.bounds;
-        Vector3 relCenter = bounds.center - _transform.position;
-        Vector3 halfSize = Vector3.Scale(_boxCollider.size, _transform.lossyScale) / 2;
+        Vector3 relCenter = bounds.center - _transform.Position;
+        Vector3 halfSize = Vector3.Scale(_boxCollider.size, _boxCollider.transform.lossyScale) / 2;
 
-        Vector3 ufr = relCenter + new Vector3(halfSize.x, halfSize.y, halfSize.z),
-            ufl = relCenter + new Vector3(-halfSize.x, halfSize.y, halfSize.z),
-            ubr = relCenter + new Vector3(halfSize.x, halfSize.y, -halfSize.z),
-            ubl = relCenter + new Vector3(-halfSize.x, halfSize.y, -halfSize.z),
-            lfr = relCenter + new Vector3(halfSize.x, -halfSize.y, halfSize.z),
-            lfl = relCenter + new Vector3(-halfSize.x, -halfSize.y, halfSize.z),
-            lbr = relCenter + new Vector3(halfSize.x, -halfSize.y, -halfSize.z),
-            lbl = relCenter + new Vector3(-halfSize.x, -halfSize.y, -halfSize.z);
+        Vector3 ufr = new PointData(relCenter + new Vector3(halfSize.x, halfSize.y, halfSize.z)),
+            ufl = new PointData(relCenter + new Vector3(-halfSize.x, halfSize.y, halfSize.z)),
+            ubr = new PointData(relCenter + new Vector3(halfSize.x, halfSize.y, -halfSize.z)),
+            ubl = new PointData(relCenter + new Vector3(-halfSize.x, halfSize.y, -halfSize.z)),
+            lfr = new PointData(relCenter + new Vector3(halfSize.x, -halfSize.y, halfSize.z)),
+            lfl = new PointData(relCenter + new Vector3(-halfSize.x, -halfSize.y, halfSize.z)),
+            lbr = new PointData(relCenter + new Vector3(halfSize.x, -halfSize.y, -halfSize.z)),
+            lbl = new PointData(relCenter + new Vector3(-halfSize.x, -halfSize.y, -halfSize.z));
 
-        Vector3[] frontVertices = { ufl, ufr, lfr, lfl },
+        PointData[] frontVertices = { ufl, ufr, lfr, lfl },
             rightVertices = { ufr, ubr, lbr, lfr },
             rearVertices = { ubr, ubl, lbl, lbr },
             leftVertices = { ubl, ufl, lfl, lbl },

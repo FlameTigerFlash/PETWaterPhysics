@@ -5,22 +5,31 @@ using NUnit.Framework.Constraints;
 
 public class Polyhedron
 {
-    public LinkedList<Vector3> Vertices => new LinkedList<Vector3>(_vertices);
+    public LinkedList<PointData> Vertices => new LinkedList<PointData>(_vertices);
 
     public int NormalMultiplier => _normalMultiplier;
 
-    private LinkedList<Vector3> _vertices;
+    private LinkedList<PointData> _vertices;
 
     private int _normalMultiplier = -1;
 
-    public Polyhedron(LinkedList<Vector3> vertices)
+    public Polyhedron(LinkedList<PointData> vertices)
     {
-        _vertices = new LinkedList<Vector3>(vertices);
+        _vertices = new LinkedList<PointData>(vertices);
     }
 
     public Polyhedron(Vector3[] vertices)
     {
-        _vertices = new LinkedList<Vector3>(vertices);
+        _vertices = new LinkedList<PointData>();
+        foreach (var vec in vertices)
+        {
+            _vertices.AddLast(vec);
+        }
+    }
+
+    public Polyhedron(PointData[] pointDataArr)
+    {
+        _vertices = new LinkedList<PointData>(pointDataArr);
     }
 
     public Vector3 GetNormal()
@@ -35,8 +44,8 @@ public class Polyhedron
         var secondEl = firstEl.Next;
         var thirdEl = secondEl.Next;
 
-        Vector3 a = secondEl.Value - firstEl.Value;
-        while (Vector3.Cross(a, (thirdEl.Value - firstEl.Value)) == Vector3.zero)
+        Vector3 a = secondEl.Value.Position - firstEl.Value.Position;
+        while (Vector3.Cross(a, (thirdEl.Value.Position - firstEl.Value.Position)) == Vector3.zero)
         {
             if (thirdEl == null)
             {
@@ -46,7 +55,7 @@ public class Polyhedron
             thirdEl = thirdEl.Next;
         }
 
-        Vector3 normal = _normalMultiplier * Vector3.Cross(a, (thirdEl.Value - firstEl.Value)).normalized;
+        Vector3 normal = _normalMultiplier * Vector3.Cross(a, (thirdEl.Value.Position - firstEl.Value.Position)).normalized;
 
         return normal;
     }
