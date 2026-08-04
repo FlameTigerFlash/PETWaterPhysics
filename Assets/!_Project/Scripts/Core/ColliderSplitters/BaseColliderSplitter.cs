@@ -7,14 +7,14 @@ public abstract class BaseColliderSplitter : IUpdatePosition
 
     protected List<Polyhedron> _faces = new();
 
-    protected PointTransform _transform;
+    protected TransformData _transform;
 
     public void Update()
     {
         _faces = SplitCollider();
     }
 
-    public void UpdatePosition(PointTransform transform, float deltaTime = 1)
+    public void UpdatePosition(TransformData transform, float deltaTime = 1)
     {
         _transform = transform;
     }

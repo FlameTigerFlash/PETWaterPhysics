@@ -25,7 +25,7 @@ public class TriangleData
 
     public float GetArea()
     {
-        return Vector3.Cross(B.Position - A.Position, C.Position - A.Position).magnitude / 2f;
+        return Mathf.Abs(Vector3.Cross(B.Position - A.Position, C.Position - A.Position).magnitude) / 2f;
     }
 
     public Vector3 GetNormal()

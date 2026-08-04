@@ -3,35 +3,29 @@ using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 
-public class WaterPressureProcessor : MonoBehaviour, IUpdatePosition
+public class WaterForceCalculationSystem : MonoBehaviour, IUpdatePosition
 {
     [SerializeField] private Collider _collider;
 
-    [SerializeField, Min(float.Epsilon)] private float _waterDensity = 10f;
-
-    public Vector3 Current { get; set; } = Vector3.zero;
-
-    public List<Force> ArchimedesForces => _archForces;
-    public List<Force> ResistanceForces => _resistanceForces;
-
-    private Plane _plane = new Plane(-Physics.gravity.normalized, Vector3.zero);
+    public List<ForceData> ArchimedesForces => _archForces;
+    public List<ForceData> ResistanceForces => _resistanceForces;
 
     private List<Polyhedron> _extendedFaces = new();
     private List<TriangleData> _triangles = new();
 
-    private List<Force> _archForces = new();
-    private List<Force> _resistanceForces = new();
-
-    private Dictionary<Vector3, float> _pointDepth = new();
+    private List<ForceData> _archForces = new();
+    private List<ForceData> _resistanceForces = new();
 
     private BaseColliderSplitter _splitter;
     private WaterForceCalculator _waterForceCalculator;
     private IPreprocessFaces _facePreprocessor;
 
-    private PointTransform _prevTransform;
-    private PointTransform _curTransform;
+    private TransformData _prevTransform;
+    private TransformData _curTransform;
 
     private IReadOnlyList<Polyhedron> _colliderFaces;
+
+    private WaterData _water;
 
     private float _deltaTime = 1f;
 
@@ -50,6 +44,8 @@ public class WaterPressureProcessor : MonoBehaviour, IUpdatePosition
             throw new Exception("Collider type not supported.");
         }
 
+        //_collider.enabled = false;
+
         _facePreprocessor = new SimpleFacePreprocessor();
         _waterForceCalculator = new WaterForceCalculator();
     }
@@ -62,12 +58,12 @@ public class WaterPressureProcessor : MonoBehaviour, IUpdatePosition
         DrawVelocity();
     }
 
-    public void SetPlane(Plane plane)
+    public void SetWaterData(WaterData water)
     {
-        _plane = plane;
+        _water = water;
     }
 
-    public void UpdatePosition(PointTransform newPointTransform, float fixedDeltaTime = 0)
+    public void UpdatePosition(TransformData newPointTransform, float fixedDeltaTime = 0)
     {
         if (_curTransform == null)
         {
@@ -96,8 +92,8 @@ public class WaterPressureProcessor : MonoBehaviour, IUpdatePosition
         UpdateColliderGeometry();
         UpdateFaces();
         _triangles = GetTrianglesFromFaces(_extendedFaces);
-        _archForces = _waterForceCalculator.GetArchimedesForces(_triangles, _plane);
-        _resistanceForces = _waterForceCalculator.GetWaterResistanceForces(_triangles, Current);
+        _archForces = _waterForceCalculator.GetArchimedesForces(_triangles, _water);
+        _resistanceForces = _waterForceCalculator.GetWaterResistanceForces(_triangles, _water);
     }
 
     public void UpdateColliderGeometry()
@@ -117,7 +113,7 @@ public class WaterPressureProcessor : MonoBehaviour, IUpdatePosition
         {
             return;
         }
-        _extendedFaces = _facePreprocessor.GetPreprocessedFaces(_colliderFaces, _plane);
+        _extendedFaces = _facePreprocessor.GetPreprocessedFaces(_colliderFaces, _water);
     }
 
     private void DrawColoredVerts()
@@ -154,6 +150,13 @@ public class WaterPressureProcessor : MonoBehaviour, IUpdatePosition
         Gizmos.color = Color.yellow;
         foreach (var triangleData in _triangles)
         {
+            Vector3 norm = triangleData.GetNormal();
+
+            if (norm == Vector3.zero)
+            {
+                continue;
+            }
+
             Gizmos.DrawWireSphere(triangleData.A, 0.2f);
             Gizmos.DrawWireSphere(triangleData.B, 0.2f);
             Gizmos.DrawWireSphere(triangleData.C, 0.2f);
@@ -163,12 +166,6 @@ public class WaterPressureProcessor : MonoBehaviour, IUpdatePosition
             Gizmos.DrawLine(triangleData.C, triangleData.A);
 
             Vector3 midPoint = triangleData.Centroid;
-            Vector3 norm = triangleData.GetNormal();
-
-            if (norm == Vector3.zero)
-            {
-                Debug.LogWarning("Zero normal");
-            }
 
             Gizmos.DrawLine(midPoint, midPoint + norm);
         }

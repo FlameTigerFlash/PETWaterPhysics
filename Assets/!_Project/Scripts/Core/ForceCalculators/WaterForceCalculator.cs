@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class WaterForceCalculator
 {
-    public List<Force> GetArchimedesForces(in List<TriangleData> underwaterTriangles, Plane plane, float density = 1000)
+    public List<ForceData> GetArchimedesForces(in List<TriangleData> underwaterTriangles, WaterData water)
     {
-        List<Force> ret = new();
+        var plane = water.Plane;
+        var density = water.Density;
+
+        List<ForceData> ret = new();
         Vector3 normal = plane.normal.normalized;
 
         foreach (TriangleData triangle in underwaterTriangles)
@@ -17,15 +20,18 @@ public class WaterForceCalculator
 
             Vector3 applicationPoint = triangle.GetArchimedesForceCenter();
 
-            ret.Add(new Force(-triangle.GetNormal() * magnitude, applicationPoint));
+            ret.Add(new ForceData(-triangle.GetNormal() * magnitude, applicationPoint));
         }
 
         return ret;
     }
 
-    public List<Force> GetWaterResistanceForces(in List<TriangleData> underwaterTriangles, Vector3 current, float density = 1000, float sd = 1)
+    public List<ForceData> GetWaterResistanceForces(in List<TriangleData> underwaterTriangles, WaterData water, float sd = 1)
     {
-        List<Force> ret = new();
+        var current = water.Current;
+        var density = water.Density;
+
+        List<ForceData> ret = new();
         float waterConstant = sd * density;
 
         foreach (TriangleData triangle in underwaterTriangles)
@@ -47,9 +53,9 @@ public class WaterForceCalculator
                 magnitudeB = waterConstant * triangleArea * BDot * Mathf.Abs(BDot) / 6,
                 magnitudeC = waterConstant * triangleArea * CDot * Mathf.Abs(CDot) / 6;
 
-            ret.Add(new Force(-triangleNormal * magnitudeA, triangle.MCenterA));
-            ret.Add(new Force(-triangleNormal * magnitudeB, triangle.MCenterB));
-            ret.Add(new Force(-triangleNormal * magnitudeC, triangle.MCenterC));
+            ret.Add(new ForceData(-triangleNormal * magnitudeA, triangle.MCenterA));
+            ret.Add(new ForceData(-triangleNormal * magnitudeB, triangle.MCenterB));
+            ret.Add(new ForceData(-triangleNormal * magnitudeC, triangle.MCenterC));
         }
 
         return ret;
@@ -60,6 +66,10 @@ public class WaterForceCalculator
         List<TriangleData> ret = new();
         foreach (var face in faces)
         {
+            if (face == null)
+            {
+                continue;
+            }
             var newTriangles = SplitFace(face);
             foreach (var triangle in newTriangles)
             {

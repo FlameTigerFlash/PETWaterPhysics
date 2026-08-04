@@ -3,23 +3,23 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Force
+public struct ForceData
 {
     public Vector3 ForceVector;
     public Vector3 ApplicationPoint;
 
-    public static Force Zero => new Force(Vector3.zero, Vector3.zero);
+    public static ForceData Zero => new ForceData(Vector3.zero, Vector3.zero);
 
-    public Force(Vector3 force, Vector3 point)
+    public ForceData(Vector3 force, Vector3 point)
     {
         ForceVector = force;
         ApplicationPoint = point;
     }
 
-    public static Vector3 GetResultantForce(List<Force> forces)
+    public static Vector3 GetResultantForce(List<ForceData> forces)
     {
         Vector3 ret = Vector3.zero;
-        foreach (Force force in forces)
+        foreach (ForceData force in forces)
         {
             ret += force.ForceVector;
         }
@@ -27,10 +27,10 @@ public class Force
         return ret;
     }
 
-    public static Vector3 GetResultantTorque(List<Force> forces, Vector3 center)
+    public static Vector3 GetResultantTorque(List<ForceData> forces, Vector3 center)
     {
         Vector3 ret = Vector3.zero;
-        foreach (Force force in forces)
+        foreach (ForceData force in forces)
         {
             ret += Vector3.Cross(force.ApplicationPoint - center, force.ForceVector);
         }

@@ -1,23 +1,25 @@
 using UnityEngine;
 
-public class PointTransform
+public class TransformData
 {
     public Vector3 Position = Vector3.zero;
     public Quaternion Rotation = Quaternion.identity;
+    public float Scale = 1.0f;
 
-    public PointTransform()
+    public TransformData()
     {
         Position = Vector3.zero;
         Rotation = Quaternion.identity;
     }
 
-    public PointTransform(Vector3 pos, Quaternion rot)
+    public TransformData(Vector3 pos, Quaternion rot, float scale = 1.0f)
     {
         Position = pos;
         Rotation = rot;
+        Scale = scale;
     }
 
-    public PointTransform(in Transform transform) : this(transform.position, transform.rotation)
+    public TransformData(in Transform transform) : this(transform.position, transform.rotation)
     {
 
     }

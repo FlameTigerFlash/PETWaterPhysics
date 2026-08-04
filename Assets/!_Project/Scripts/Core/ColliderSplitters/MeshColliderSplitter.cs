@@ -19,6 +19,8 @@ public class MeshColliderSplitter : BaseColliderSplitter
         Vector3[] vertices = mesh.vertices;
         int[] triangles = mesh.triangles;
 
+        Vector3 colSize = _meshCollider.transform.lossyScale;
+
         for (int i = 0; i < triangles.Length; i += 3)
         {
             Vector3 v0 = vertices[triangles[i]];
@@ -26,9 +28,9 @@ public class MeshColliderSplitter : BaseColliderSplitter
             Vector3 v2 = vertices[triangles[i + 2]];
 
             var list = new LinkedList<PointData>();
-            list.AddLast(v2);
-            list.AddLast(v1);
-            list.AddLast(v0);
+            list.AddLast(Vector3.Scale(v2, colSize));
+            list.AddLast(Vector3.Scale(v1, colSize));
+            list.AddLast(Vector3.Scale(v0, colSize));
 
             Polyhedron triangle = new Polyhedron(list);
             faces.Add(triangle);

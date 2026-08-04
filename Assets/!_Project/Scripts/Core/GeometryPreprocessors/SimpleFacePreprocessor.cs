@@ -6,12 +6,12 @@ using UnityEngine.UIElements;
 public class SimpleFacePreprocessor : IPreprocessFaces
 {
     private float _deltaTime;
-    private PointTransform _prevTransform;
-    private PointTransform _curTransform;
+    private TransformData _prevTransform;
+    private TransformData _curTransform;
 
     private Dictionary<Vector3, float> _pointDepth = new();
 
-    public void UpdatePosition(PointTransform newPointTransform, float fixedDeltaTime = 1)
+    public void UpdatePosition(TransformData newPointTransform, float fixedDeltaTime = 1)
     {
         if (_curTransform == null)
         {
@@ -29,8 +29,10 @@ public class SimpleFacePreprocessor : IPreprocessFaces
         _pointDepth.Clear();
     }
 
-    public List<Polyhedron> GetPreprocessedFaces(in IReadOnlyList<Polyhedron> faces, Plane plane)
+    public List<Polyhedron> GetPreprocessedFaces(in IReadOnlyList<Polyhedron> faces, WaterData water)
     {
+        var plane = water.Plane;
+
         List<Polyhedron> newFaces = new();
         foreach (var face in faces)
         {
