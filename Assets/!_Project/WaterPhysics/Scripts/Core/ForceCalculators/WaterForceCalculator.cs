@@ -14,6 +14,10 @@ public class WaterForceCalculator
 
         foreach (TriangleData triangle in underwaterTriangles)
         {
+            if (!triangle.CalculateArchimedesForce)
+            {
+                continue;
+            }
             float centroidDepth = (triangle.A.Depth + triangle.B.Depth + triangle.C.Depth) / 3;
 
             float magnitude = density * Physics.gravity.magnitude * triangle.GetArea() * centroidDepth;
@@ -36,6 +40,10 @@ public class WaterForceCalculator
 
         foreach (TriangleData triangle in underwaterTriangles)
         {
+            if (!triangle.CalculateResistanceForce)
+            {
+                continue;
+            }
             float triangleArea = triangle.GetArea();
 
             Vector3 triangleNormal = triangle.GetNormal().normalized;
@@ -93,6 +101,8 @@ public class WaterForceCalculator
                 {
                     triangle.FacesOutwards = (!triangle.FacesOutwards);
                 }
+                triangle.CalculateArchimedesForce = face.CalculateArchimedesForce;
+                triangle.CalculateResistanceForce = face.CalculateResistanceForce;
             }
             ret.AddRange(newTriangles);
         }

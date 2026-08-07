@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseColliderSplitter : IUpdatePosition
+public abstract class BaseColliderSplitter : IUpdatePosition, IGetFaces
 {
-    public IReadOnlyList<Polyhedron> Faces => _faces;
+    public List<Polyhedron> Faces => _faces;
 
     protected List<Polyhedron> _faces = new();
 
@@ -11,7 +11,7 @@ public abstract class BaseColliderSplitter : IUpdatePosition
 
     public void Update()
     {
-        _faces = SplitCollider();
+        _faces = GetFaces();
     }
 
     public void UpdatePosition(TransformData transform, float deltaTime = 1)
@@ -19,5 +19,5 @@ public abstract class BaseColliderSplitter : IUpdatePosition
         _transform = transform;
     }
 
-    protected abstract List<Polyhedron> SplitCollider();
+    public abstract List<Polyhedron> GetFaces();
 }

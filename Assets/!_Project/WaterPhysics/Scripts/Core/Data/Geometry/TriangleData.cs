@@ -4,6 +4,9 @@ public class TriangleData
 {
     public PointData A, B, C;
 
+    public bool CalculateArchimedesForce = true;
+    public bool CalculateResistanceForce = true;
+
     public Vector3 MidBC => (B.Position + C.Position) / 2;
     public Vector3 MidAC => (A.Position + C.Position) / 2;
     public Vector3 MidAB => (B.Position + A.Position) / 2;

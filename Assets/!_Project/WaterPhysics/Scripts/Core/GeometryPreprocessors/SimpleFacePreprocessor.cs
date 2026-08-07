@@ -49,7 +49,11 @@ public class SimpleFacePreprocessor : IPreprocessFaces
         TransformLinkedList(verts);
         FillWaterContacts(verts, plane);
 
-        return new Polyhedron(verts);
+        Polyhedron ret = new Polyhedron(verts);
+        ret.CalculateResistanceForce = face.CalculateResistanceForce;
+        ret.CalculateArchimedesForce = face.CalculateArchimedesForce;
+
+        return ret;
     }
 
     private PointType GetPointType(PointData point, Plane plane)

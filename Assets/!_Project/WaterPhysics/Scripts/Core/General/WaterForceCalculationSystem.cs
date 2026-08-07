@@ -4,13 +4,28 @@ using System.Collections.Generic;
 
 public class WaterForceCalculationSystem : MonoBehaviour, IUpdatePosition
 {
+    #region fields
+    [Header("General")]
     [SerializeField] private Collider _collider;
+
+    [Header("Additional faces")]
+    [SerializeField] private List<MonoBehaviour> _mbFaceProviders = new();
+
+    [Header("Debug")]
+    [SerializeField] private bool _drawColoredVerts = false;
+    [SerializeField] private bool _drawTriangles = false;
+    [SerializeField] private bool _drawVelocity = false;
+    [SerializeField] private bool _drawFaceNormals = false;
 
     public List<ForceData> ArchimedesForces => _archForces;
     public List<ForceData> ResistanceForces => _resistanceForces;
 
+    private List<Polyhedron> _mainFaces = new();
+    private List<Polyhedron> _allFaces = new();
     private List<Polyhedron> _extendedFaces = new();
     private List<TriangleData> _triangles = new();
+
+    private List<IGetFaces> _faceProviders = new();
 
     private List<ForceData> _archForces = new();
     private List<ForceData> _resistanceForces = new();
@@ -22,11 +37,10 @@ public class WaterForceCalculationSystem : MonoBehaviour, IUpdatePosition
     private TransformData _prevTransform;
     private TransformData _curTransform;
 
-    private IReadOnlyList<Polyhedron> _colliderFaces;
-
     private WaterData _water;
 
     private float _deltaTime = 1f;
+    #endregion
 
     private void Awake()
     {
@@ -43,18 +57,40 @@ public class WaterForceCalculationSystem : MonoBehaviour, IUpdatePosition
             throw new Exception("Collider type not supported.");
         }
 
+        foreach (var provider in _mbFaceProviders)
+        {
+            if (!(provider is IGetFaces))
+            {
+                Debug.LogError($"Face providers must extend the {nameof(IGetFaces)} interface. {nameof(provider)} does not.");
+                continue;
+            }
+            _faceProviders.Add(provider as IGetFaces);
+        }
+
         //_collider.enabled = false;
 
         _facePreprocessor = new SimpleFacePreprocessor();
         _waterForceCalculator = new WaterForceCalculator();
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
-        DrawColoredVerts();
-        DrawTriangles();
-        DrawVelocity();
-        DrawFaceNormals();
+        if (_drawColoredVerts)
+        {
+            DrawColoredVerts();
+        }
+        if (_drawTriangles)
+        {
+            DrawTriangles();
+        }
+        if (_drawVelocity)
+        {
+            DrawVelocity();
+        }
+        if (_drawFaceNormals)
+        {
+            DrawFaceNormals();
+        }
     }
 
     public void SetWaterData(WaterData water)
@@ -97,22 +133,35 @@ public class WaterForceCalculationSystem : MonoBehaviour, IUpdatePosition
 
     public void UpdateColliderGeometry()
     {
-        if (_splitter == null)
+        _allFaces.Clear();
+        if (_splitter != null)
         {
-            return;
+            _splitter.Update();
+            _mainFaces = _splitter.Faces;
+        }
+        else
+        {
+            _mainFaces.Clear();
         }
 
-        _splitter.Update();
-        _colliderFaces = _splitter.Faces;
+        foreach (var faceGetter in _faceProviders)
+        {
+            if (faceGetter == null)
+            {
+                continue;
+            }
+            _allFaces.AddRange(faceGetter.GetFaces());
+        }
+        _allFaces.AddRange(_mainFaces);
     }
 
     private void UpdateFaces()
     {
-        if (_colliderFaces == null)
+        if (_allFaces.Count == 0)
         {
             return;
         }
-        _extendedFaces = _facePreprocessor.GetPreprocessedFaces(_colliderFaces, _water);
+        _extendedFaces = _facePreprocessor.GetPreprocessedFaces(_allFaces, _water);
     }
 
     private void DrawColoredVerts()

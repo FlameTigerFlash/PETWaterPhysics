@@ -601,6 +601,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaterPressureProcessor
   _collider: {fileID: 571377208}
+  _mbFaceProviders: []
+  _drawColoredVerts: 0
+  _drawTriangles: 0
+  _drawVelocity: 0
+  _drawFaceNormals: 0
 --- !u!54 &571377213
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -648,6 +653,8 @@ MonoBehaviour:
   _applyResistanceForce: 1
   _resistanceProcessorConfig: {fileID: 871135345}
   _archimedesProcessorConfig: {fileID: 1303646292}
+  _drawCenterOfMass: 0
+  _drawForces: 0
 --- !u!1001 &580524495
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -656,17 +663,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2074481498156010244, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
-      propertyPath: m_LocalPosition.z
+    - target: {fileID: 833652546816098709, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 833652546816098709, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
+      propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 833652546816098709, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1145136673027277954, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
+      propertyPath: _parentTransform
+      value: 
+      objectReference: {fileID: 660015148}
     - target: {fileID: 2869169446171960112, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
       propertyPath: m_Name
       value: SmallTopLargeBottomModel
-      objectReference: {fileID: 0}
-    - target: {fileID: 3214029462564485514, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3214029462564485514, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
       propertyPath: m_LocalPosition.x
@@ -709,58 +724,19 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5592130941901434881, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
-      propertyPath: m_Mass
-      value: 12000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5592130941901434881, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
       propertyPath: m_IsKinematic
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7618269940975753529, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
-      propertyPath: m_Size.z
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 7889963881776135310, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
-      propertyPath: _ballasts.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7889963881776135310, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
-      propertyPath: '_ballasts.Array.data[0]'
-      value: 
-      objectReference: {fileID: 970068008}
-    - target: {fileID: 7889963881776135310, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
-      propertyPath: _archimedesProcessorConfig
-      value: 
-      objectReference: {fileID: 11400000, guid: 92375ed493157864bbf1e77a3b5e5f40, type: 2}
-    - target: {fileID: 7889963881776135310, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
-      propertyPath: _resistanceProcessorConfig
-      value: 
-      objectReference: {fileID: 11400000, guid: c067fa3951e91df4189a432dabae8244, type: 2}
-    - target: {fileID: 8087891757550404125, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8087891757550404125, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8087891757550404125, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 8087891757550404125, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 8087891757550404125, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
+--- !u!4 &660015148 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8087891757550404125, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
+  m_PrefabInstance: {fileID: 580524495}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -832,17 +808,6 @@ MonoBehaviour:
     - rid: 320122956022284875
       type: {class: DummyForceProcessor, ns: , asm: Assembly-CSharp}
       data: 
---- !u!114 &970068008 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 486966344131884086, guid: 6499c61b1fe00e1419244f9c9b35b903, type: 3}
-  m_PrefabInstance: {fileID: 580524495}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c6c231eb4ead584d80ff370a0f271da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Ballast
 --- !u!114 &1303646292
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ public class MeshColliderSplitter : BaseColliderSplitter
         _meshCollider = meshCollider;
     }
 
-    protected override List<Polyhedron> SplitCollider()
+    public override List<Polyhedron> GetFaces()
     {
         List<Polyhedron> faces = new();
         Mesh mesh = _meshCollider.sharedMesh;

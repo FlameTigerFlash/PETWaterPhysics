@@ -4,7 +4,7 @@ public class TransformData
 {
     public Vector3 Position = Vector3.zero;
     public Quaternion Rotation = Quaternion.identity;
-    public float Scale = 1.0f;
+    public Vector3 LossyScale = Vector3.one;
 
     public TransformData()
     {
@@ -12,14 +12,14 @@ public class TransformData
         Rotation = Quaternion.identity;
     }
 
-    public TransformData(Vector3 pos, Quaternion rot, float scale = 1.0f)
+    public TransformData(Vector3 pos, Quaternion rot, Vector3 scale)
     {
         Position = pos;
         Rotation = rot;
-        Scale = scale;
+        LossyScale = scale;
     }
 
-    public TransformData(in Transform transform) : this(transform.position, transform.rotation)
+    public TransformData(in Transform transform) : this(transform.position, transform.rotation, transform.lossyScale)
     {
 
     }

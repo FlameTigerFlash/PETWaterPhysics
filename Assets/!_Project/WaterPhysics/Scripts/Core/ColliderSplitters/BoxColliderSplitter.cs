@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
 public class BoxColliderSplitter : BaseColliderSplitter
@@ -10,22 +11,26 @@ public class BoxColliderSplitter : BaseColliderSplitter
         _boxCollider = boxCollider;
     }
 
-    protected override List<Polyhedron> SplitCollider()
+    public override List<Polyhedron> GetFaces()
     {
         List<Polyhedron> faces = new();
 
         Bounds bounds = _boxCollider.bounds;
-        Vector3 relCenter = bounds.center - _transform.Position;
-        Vector3 halfSize = Vector3.Scale(_boxCollider.size, _boxCollider.transform.lossyScale) / 2;
+        Vector3 relCenter = _transform.InverseTransformPoint(bounds.center);
+        Vector3 halfSize = Vector3.Scale(_boxCollider.size, _boxCollider.transform.localScale) / 2;
 
-        Vector3 ufr = new PointData(relCenter + new Vector3(halfSize.x, halfSize.y, halfSize.z)),
-            ufl = new PointData(relCenter + new Vector3(-halfSize.x, halfSize.y, halfSize.z)),
-            ubr = new PointData(relCenter + new Vector3(halfSize.x, halfSize.y, -halfSize.z)),
-            ubl = new PointData(relCenter + new Vector3(-halfSize.x, halfSize.y, -halfSize.z)),
-            lfr = new PointData(relCenter + new Vector3(halfSize.x, -halfSize.y, halfSize.z)),
-            lfl = new PointData(relCenter + new Vector3(-halfSize.x, -halfSize.y, halfSize.z)),
-            lbr = new PointData(relCenter + new Vector3(halfSize.x, -halfSize.y, -halfSize.z)),
-            lbl = new PointData(relCenter + new Vector3(-halfSize.x, -halfSize.y, -halfSize.z));
+        Vector3 trueHalfSizeX = ToRemoteRotation(halfSize.x * Vector3.right);
+        Vector3 trueHalfSizeY = ToRemoteRotation(halfSize.y * Vector3.up);
+        Vector3 trueHalfSizeZ = ToRemoteRotation(halfSize.z * Vector3.forward);
+
+        Vector3 ufr = new PointData(relCenter + trueHalfSizeX + trueHalfSizeY + trueHalfSizeZ),
+            ufl = new PointData(relCenter - trueHalfSizeX + trueHalfSizeY + trueHalfSizeZ),
+            ubr = new PointData(relCenter + trueHalfSizeX + trueHalfSizeY - trueHalfSizeZ),
+            ubl = new PointData(relCenter - trueHalfSizeX + trueHalfSizeY - trueHalfSizeZ),
+            lfr = new PointData(relCenter + trueHalfSizeX - trueHalfSizeY + trueHalfSizeZ),
+            lfl = new PointData(relCenter - trueHalfSizeX - trueHalfSizeY + trueHalfSizeZ),
+            lbr = new PointData(relCenter + trueHalfSizeX - trueHalfSizeY - trueHalfSizeZ),
+            lbl = new PointData(relCenter - trueHalfSizeX - trueHalfSizeY - trueHalfSizeZ);
 
         PointData[] frontVertices = { ufl, ufr, lfr, lfl },
             rightVertices = { ufr, ubr, lbr, lfr },
@@ -51,5 +56,10 @@ public class BoxColliderSplitter : BaseColliderSplitter
         faces.Add(new Polyhedron(topVertices));
 
         return faces;
+    }
+
+    private Vector3 ToRemoteRotation(Vector3 vec)
+    {
+        return Quaternion.Inverse(_transform.Rotation) * (_boxCollider.transform.rotation * vec);
     }
 }

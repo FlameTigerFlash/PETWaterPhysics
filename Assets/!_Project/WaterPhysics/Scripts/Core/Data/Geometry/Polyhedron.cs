@@ -9,6 +9,9 @@ public class Polyhedron
 
     public int NormalMultiplier => _normalMultiplier;
 
+    public bool CalculateArchimedesForce = true;
+    public bool CalculateResistanceForce = true;
+
     private LinkedList<PointData> _vertices;
 
     private int _normalMultiplier = -1;

@@ -25,6 +25,10 @@ public class WaterForceAggregator : MonoBehaviour
     [SerializeField, NotNull] private ForceProcessorConfig _resistanceProcessorConfig;
     [SerializeField, NotNull] private ForceProcessorConfig _archimedesProcessorConfig;
 
+    [Header("Debug")]
+    [SerializeField] private bool _drawCenterOfMass = false;
+    [SerializeField] private bool _drawForces = false;
+
     private Rigidbody _rb;
 
     private WaterData _water;
@@ -92,18 +96,22 @@ public class WaterForceAggregator : MonoBehaviour
         _rb.AddTorque(totalEffect.TorqueVector);
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         if (_rb == null)
         {
             return;
         }
-        Vector3 centerOfMassPos = _rb.worldCenterOfMass;
-
-        Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(centerOfMassPos, 0.5f);
-
-        DrawForces();
+        if (_drawCenterOfMass)
+        {
+            Vector3 centerOfMassPos = _rb.worldCenterOfMass;
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(centerOfMassPos, 0.5f);
+        }
+        if (_drawForces)
+        {
+            DrawForces();
+        }
     }
 
     public void SetupWater(Plane plane, Vector3 current, float density = 1000f)
